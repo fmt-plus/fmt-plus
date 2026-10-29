@@ -4,7 +4,7 @@ import { brand } from '../brand.ts';
 import { useStore } from '../lib/react.ts';
 import { linkClick, route } from '../lib/router.ts';
 import { WalletButton } from '../wallet/WalletButton.tsx';
-import { IconX } from './Icons.tsx';
+import { IconGitHub, IconX } from './Icons.tsx';
 import { Mark } from './Mark.tsx';
 
 export const NAV: [string, string][] = [
@@ -13,6 +13,8 @@ export const NAV: [string, string][] = [
   ['/tools', copy.home.footer.tools],
   ['/docs', copy.nav.docs],
 ];
+
+export const githubUrl = 'https://github.com/fmt-plus/fmt-plus';
 
 export const xUrl = brand.x ? `https://x.com/${brand.x}` : 'https://x.com';
 
@@ -37,6 +39,9 @@ export function Header() {
       <div className="hd-end">
         <a className="btn-icon hd-x" href={xUrl} target="_blank" rel="noopener noreferrer" aria-label={copy.nav.xLabel}>
           <IconX size={17} />
+        </a>
+        <a className="btn-icon hd-x" href={githubUrl} target="_blank" rel="noopener noreferrer" aria-label={copy.nav.github}>
+          <IconGitHub size={18} />
         </a>
         <WalletButton />
       </div>

@@ -16,6 +16,7 @@ export const copy = {
     share: 'Share',
     x: 'X',
     xLabel: 'Our X page',
+    github: 'Our code on GitHub',
     home: 'Home',
   },
 

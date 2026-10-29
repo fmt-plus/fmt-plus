@@ -8,7 +8,7 @@ import { useNow, useStore } from '../lib/react.ts';
 import { linkClick } from '../lib/router.ts';
 import { arrived, live } from '../state/live.ts';
 import type { Swap, Trade, WalletView } from '../state/live.ts';
-import { xUrl } from '../ui/Header.tsx';
+import { githubUrl, xUrl } from '../ui/Header.tsx';
 
 export const sym = (s: string | null | undefined, mint: string) => '$' + (s || mint.slice(0, 4));
 export const pushText = (t: { name: string; side: 'buy' | 'sell'; sol: number; sym: string | null; mint: string }) =>
@@ -158,7 +158,16 @@ export function Footer() {
         <b className="g-foot-word">
           fmt<span>+</span>
         </b>
-        <div className="g-dim">{brand.domain} · @{brand.x}</div>
+        <div className="g-dim">
+          {brand.domain} ·{' '}
+          <a href={xUrl} target="_blank" rel="noopener noreferrer">
+            @{brand.x}
+          </a>{' '}
+          ·{' '}
+          <a href={githubUrl} target="_blank" rel="noopener noreferrer">
+            github.com/fmt-plus
+          </a>
+        </div>
       </div>
       <div>
         {L('/live', f.live)}
@@ -173,7 +182,7 @@ export function Footer() {
         <a href={xUrl} target="_blank" rel="noopener noreferrer">
           {f.x}
         </a>
-        <a href="https://github.com/fmt-plus/fmt-plus" target="_blank" rel="noopener noreferrer">
+        <a href={githubUrl} target="_blank" rel="noopener noreferrer">
           {f.github}
         </a>
       </div>
