@@ -173,7 +173,7 @@ export function Footer() {
         <a href={xUrl} target="_blank" rel="noopener noreferrer">
           {f.x}
         </a>
-        <a href="https://github.com/fmtplus" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/fmt-plus/fmt-plus" target="_blank" rel="noopener noreferrer">
           {f.github}
         </a>
       </div>
