@@ -433,3 +433,8 @@
 .v-ftype-sell[aria-pressed='true'] { background: #fde7f1; color: #b0105f; }
 .v-ftype-up[aria-pressed='true'] { background: #b7f540; color: #0e3b36; }
 .v-ftype-digest[aria-pressed='true'] { background: #e6e8ff; color: #0000ff; }
+.v-tgm-w { display: grid; gap: 3px; max-width: 92%; }
+.v-tgm-w .v-tgm { max-width: none; }
+.v-tgm-ca { font: 10.5px var(--mono); color: #c9d4de; background: #0f1a24; padding: 2px 5px; border-radius: 4px; word-break: break-all; }
+.v-tgm-kb { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+.v-tgm-kb > * { display: grid; place-items: center; min-height: 26px; border: 0; border-radius: 8px; background: rgba(43, 82, 120, 0.55); color: #fff; font: 600 11px var(--sans); text-decoration: none; cursor: pointer; }

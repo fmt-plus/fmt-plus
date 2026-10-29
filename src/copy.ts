@@ -192,6 +192,7 @@ export const copy = {
       bot: 'fmt+ bot',
       botSub: 'Your agent',
       chart: 'Chart',
+      copyCa: 'Copy CA',
       wallet: 'Wallet',
       tx: 'Transaction',
       token: 'Token',
