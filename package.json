@@ -19,7 +19,7 @@
     "dev:web": "vite",
     "server": "node --disable-warning=ExperimentalWarning --watch-path=server server/main.mjs",
     "start": "STATIC_DIR=dist node --disable-warning=ExperimentalWarning server/main.mjs",
-    "build": "tsc -p tsconfig.json && vite build",
+    "build": "tsc -p tsconfig.json && vite build && node scripts/blogmeta.mjs",
     "typecheck": "tsc -p tsconfig.json",
     "copy": "node scripts/copycheck.mjs src/copy.ts",
     "numbers": "node --experimental-strip-types --disable-warning=ExperimentalWarning scripts/check-numbers.mjs",
@@ -31,16 +31,21 @@
     "diagrams": "node scripts/diagrams.mjs",
     "brand": "node scripts/brand.mjs",
     "release": "bash deploy/release.sh",
-    "tg": "node scripts/tg.mjs"
+    "tg": "node scripts/tg.mjs",
+    "dev:a": "VITE_DRAFT=a node scripts/dev.mjs",
+    "dev:b": "VITE_DRAFT=b vite --port 5540 --strictPort"
   },
   "dependencies": {
     "@fontsource-variable/inter-tight": "5.3.0",
     "@fontsource-variable/jetbrains-mono": "5.3.0",
     "@fontsource/instrument-serif": "^5.2.8",
+    "@napi-rs/canvas": "^0.1.65",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },
   "devDependencies": {
+    "@fontsource/inter-tight": "^5.2.5",
+    "@fontsource/jetbrains-mono": "^5.2.5",
     "@types/node": "24.10.1",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",

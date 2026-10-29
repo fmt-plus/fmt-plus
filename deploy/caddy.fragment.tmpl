@@ -1,6 +1,12 @@
 # {{NAME}} — written by deploy/release.sh to /etc/caddy/sites/{{SLUG}}.caddy
 # (the main /etc/caddy/Caddyfile needs one line: import sites/*.caddy)
 {{DOMAIN}} {
+	handle /blog {
+		redir https://blog.{{DOMAIN}}/ 308
+	}
+	handle_path /blog/* {
+		redir https://blog.{{DOMAIN}}{uri} 308
+	}
 	handle /api/* {
 		reverse_proxy 127.0.0.1:{{PORT}} {
 			# SSE (/api/stream): pass every event at once
@@ -15,6 +21,27 @@
 		@pages not path /assets/*
 		header @pages Cache-Control "no-cache"
 		try_files {path} /index.html
+		file_server
+	}
+}
+
+# the blog: its own host; the old /blog links on the main host move there
+blog.{{DOMAIN}} {
+	handle /api/* {
+		reverse_proxy 127.0.0.1:{{PORT}} {
+			flush_interval -1
+		}
+	}
+	handle {
+		encode zstd gzip
+		root * /srv/{{SLUG}}/current/app/dist
+		@assets path /assets/*
+		header @assets Cache-Control "public, max-age=31536000, immutable"
+		@pages not path /assets/*
+		header @pages Cache-Control "no-cache"
+		@home path /
+		rewrite @home /b/index.html
+		try_files {path} /b{path}.html /b/index.html
 		file_server
 	}
 }

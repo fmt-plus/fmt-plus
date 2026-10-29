@@ -22,3 +22,14 @@ agents
 deploy
 trench
 every
+digest
+hourly
+transaction
+transactions
+recent
+indexes
+smart
+standard
+alerts
+matters
+money

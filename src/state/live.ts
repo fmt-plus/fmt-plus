@@ -17,9 +17,32 @@ export interface Trade {
   t: number;
   score: number;
 }
+export interface Signal {
+  id: string;
+  mint: string;
+  sym: string | null;
+  change1h: number;
+  priceUsd: number | null;
+  mcapUsd: number | null;
+  liqUsd: number | null;
+  t: number;
+  wallets: { w: string; name: string }[];
+}
+export interface Digest {
+  from: number;
+  to: number;
+  trades: number;
+  buys: number;
+  sells: number;
+  sol: number;
+  topTrade: { name: string; side: 'buy' | 'sell'; sol: number; sym: string | null; mint: string } | null;
+  signals: { sym: string | null; change1h: number; mint: string }[];
+}
 export interface BoardRow {
   name: string;
   w: string;
+  /** On fmt+'s own top list (else added by its owner). */
+  top: boolean;
   sol: number | null;
   trades: number;
   volume: number;
@@ -40,7 +63,19 @@ export interface WalletView {
   bagsUsd: number;
   bags: { mint: string; sym: string; usd: number }[];
   swaps: Swap[];
+  /** The trade numbers cover the wallet's last `count` trades, from `from` to `to` (ms). */
+  count: number;
+  buys: number;
+  sells: number;
+  from: number | null;
+  to: number | null;
+  tracked: boolean;
   flow: { in: number; out: number; net: number };
+  /** Tokens traded in the window; `closed` = bought and sold; `wins` = sells brought back more SOL than buys cost. */
+  tokens: number;
+  closed: number;
+  wins: number;
+  winRate: number | null;
   style: { size: number; perHour: number; kind: 'flipper' | 'holder' };
   at: number;
 }
@@ -60,8 +95,12 @@ interface Snapshot {
   board?: BoardRow[] | null;
   solUsd?: number | null;
   token?: TokenView | null;
+  signals?: Signal[] | null;
+  digest?: Digest | null;
 }
 interface LiveState {
+  signals: Signal[];
+  digest: Digest | null;
   events: Trade[];
   board: BoardRow[];
   solUsd: number | null;
@@ -72,7 +111,7 @@ interface LiveState {
 
 export const COOKER = '8deJ9xeUvXSJwicYptA9mHsU2rN2pDx37KWzkDkEXhU6';
 const KEEP = 80;
-export const live = createStore<LiveState>({ events: [], board: [], solUsd: null, token: null, conn: 'connecting', fresh: false });
+export const live = createStore<LiveState>({ signals: [], digest: null, events: [], board: [], solUsd: null, token: null, conn: 'connecting', fresh: false });
 /** Swaps that arrived over SSE while the page was open: their rows glow once. */
 export const arrived = new Set<string>();
 const listeners = new Set<(t: Trade) => void>();
@@ -106,10 +145,16 @@ export function startLiveData(): void {
         board: Array.isArray(s.board) && s.board.length ? s.board : st.board,
         solUsd: s.solUsd ?? st.solUsd,
         token: s.token ?? st.token,
+        signals: Array.isArray(s.signals) ? s.signals : st.signals,
+        digest: s.digest ?? st.digest,
         fresh: st.fresh || from === 'net',
       }));
     },
     on: {
+      signal(list) {
+        const add = (list as Signal[]).filter((x) => x && x.id);
+        live.set((st) => ({ signals: [...add.reverse(), ...st.signals.filter((x) => !add.some((a) => a.id === x.id))].slice(0, 30) }));
+      },
       trade(list) {
         const add = (list as Trade[]).filter((t) => t && t.sig);
         for (const t of add) {
@@ -133,6 +178,9 @@ export function startLiveData(): void {
     if (document.visibilityState !== 'visible') return;
     void api<{ board: BoardRow[] }>('/board')
       .then((r) => live.set({ board: r.board }))
+      .catch(() => undefined);
+    void api<Digest>('/digest')
+      .then((d) => live.set({ digest: d }))
       .catch(() => undefined);
   }, 60000);
 }

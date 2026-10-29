@@ -6,7 +6,7 @@ export const brand = {
   "ticker": "FMTP",
   "domain": "fmt.plus",
   "x": "fmtplus",
-  "tagline": "Every trench tool. One agent. Yours.",
+  "tagline": "fmt+ is an MCP with a personalized AI agent on top: it tracks smart money, indexes every trade and alerts you to what matters.",
   "theme": "light",
   "motion": "glide",
   "signature": "card-deal",

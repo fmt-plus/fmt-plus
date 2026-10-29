@@ -18,6 +18,9 @@ const TOOLS: [string, string][] = [
   ['style(wallet)', 'flipper or holder, size, pace'],
   ['live(min_sol)', 'swaps across top wallets, scored'],
   ['top_wallets()', 'the wallets fmt+ watches'],
+  ['wallet_stats(wallet)', 'win rate, buys and sells'],
+  ['coins_up()', 'coins up 50% in 1 hour'],
+  ['digest()', 'the last hour in one answer'],
 ];
 
 export function Docs() {

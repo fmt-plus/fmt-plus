@@ -1,7 +1,7 @@
 // fmt+ MCP core, shared by the remote endpoint (server/routes/mcp.mjs → https://mcp.fmt.plus) and the stdio
 // package (mcp/index.mjs, which ships a copy as mcp/core.mjs). Read-only: no keys, no signing.
-// `get(path)` reads the fmt+ API (/w/<addr>, /events, /board) and returns parsed JSON.
-export const VERSION = '0.1.0';
+// `get(path)` reads the fmt+ API (/w/<addr>, /events, /board, /signals, /digest) and returns parsed JSON.
+export const VERSION = '0.2.0';
 const ADDR = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
 const wallet = { type: 'object', properties: { wallet: { type: 'string', description: 'Solana wallet address' } }, required: ['wallet'] };
 
@@ -13,6 +13,9 @@ export const TOOLS = [
   { name: 'trades', description: 'The last swaps of a wallet: side, SOL, token, time, tx.', inputSchema: wallet },
   { name: 'live', description: 'Latest swaps across top Solana wallets fmt+ watches, with an importance score 0-100.', inputSchema: { type: 'object', properties: { min_sol: { type: 'number', description: 'Only swaps of this size and up' } } } },
   { name: 'top_wallets', description: 'Top wallets fmt+ watches: balance, swaps and SOL moved in 24h.', inputSchema: { type: 'object', properties: {} } },
+  { name: 'wallet_stats', description: 'Win rate, tokens closed, buys and sells over the wallet’s recent swaps.', inputSchema: wallet },
+  { name: 'coins_up', description: 'Coins up 50% or more in 1 hour that tracked wallets traded in the last 24h, with CA, market cap and who traded.', inputSchema: { type: 'object', properties: {} } },
+  { name: 'digest', description: 'The last hour across tracked wallets: trades, buys, sells, SOL moved, the biggest trade and coins up 50%.', inputSchema: { type: 'object', properties: {} } },
 ];
 
 const ago = (t) => {
@@ -20,10 +23,11 @@ const ago = (t) => {
   return m < 60 ? `${m}m ago` : m < 2880 ? `${Math.round(m / 60)}h ago` : `${Math.round(m / 1440)}d ago`;
 };
 const tok = (s) => '$' + (s.sym || s.mint.slice(0, 4));
+const usd = (x) => (x == null ? '?' : x >= 1e6 ? `$${(x / 1e6).toFixed(2)}M` : x >= 1e3 ? `$${Math.round(x / 1e3)}k` : `$${x}`);
 
 export async function run(name, a, get) {
   a = a || {};
-  if (['whats_important', 'pnl', 'bags', 'style', 'trades'].includes(name)) {
+  if (['whats_important', 'pnl', 'bags', 'style', 'trades', 'wallet_stats'].includes(name)) {
     if (!ADDR.test(a.wallet || '')) throw new Error('wallet must be a Solana address');
     const v = await get(`/w/${a.wallet}`);
     const who = v.name || a.wallet.slice(0, 4) + '…' + a.wallet.slice(-4);
@@ -38,7 +42,13 @@ export async function run(name, a, get) {
       case 'style':
         return `${who} is a ${v.style.kind}: typical buy ${v.style.size} SOL, ${v.style.perHour} swaps/hour.` + link;
       case 'trades':
-        return (v.swaps.slice(0, 15).map((s) => `- ${s.side} ${s.sol} SOL ${tok(s)} · ${ago(s.t)} · tx ${s.sig}`).join('\n') || 'No recent swaps.') + link;
+        return (v.swaps.slice(0, 15).map((s) => `- ${s.side} ${s.sol} SOL ${tok(s)} · ${ago(s.t)} · CA ${s.mint} · tx ${s.sig}`).join('\n') || 'No recent swaps.') + link;
+      case 'wallet_stats':
+        return (
+          `${who} over last ${v.count} swaps: ${v.buys} buys, ${v.sells} sells, ${v.tokens} tokens, ${v.closed} closed (bought and sold), ` +
+          (v.winRate == null ? 'win rate n/a (no closed tokens).' : `win rate ${Math.round(v.winRate * 100)}% (${v.wins} of ${v.closed} closed for more SOL than they cost).`) +
+          link
+        );
     }
   }
   if (name === 'live') {
@@ -49,6 +59,21 @@ export async function run(name, a, get) {
   if (name === 'top_wallets') {
     const { board } = await get('/board');
     return board.map((b) => `- ${b.name} ${b.w}: ${b.sol ?? '?'} SOL, ${b.trades} swaps / ${b.volume} SOL moved 24h`).join('\n');
+  }
+  if (name === 'coins_up') {
+    const { signals } = await get('/signals');
+    return (
+      signals
+        .slice(0, 15)
+        .map((s) => `- ${tok(s)} +${Math.round(s.change1h)}% in 1h · mcap ${usd(s.mcapUsd)} · liq ${usd(s.liqUsd)} · ${ago(s.t)} · traded by ${s.wallets.map((w) => w.name).join(', ') || '?'} · CA ${s.mint} · https://dexscreener.com/solana/${s.mint}`)
+        .join('\n') || 'Right now no coin that tracked wallets traded is up 50% or more in 1 hour.'
+    );
+  }
+  if (name === 'digest') {
+    const d = await get('/digest');
+    const top = d.topTrade ? `\nBiggest trade: ${d.topTrade.name} ${d.topTrade.side} ${d.topTrade.sol} SOL ${tok(d.topTrade)} · CA ${d.topTrade.mint}` : '';
+    const up = d.signals.length ? `\nUp 50%+ in 1h: ${d.signals.map((s) => `${tok(s)} +${Math.round(s.change1h)}% (${s.mint})`).join(', ')}` : '';
+    return `Last hour: ${d.trades} trades (${d.buys} buys, ${d.sells} sells), ${d.sol} SOL moved.` + top + up;
   }
   throw new Error(`unknown tool ${name}`);
 }
@@ -64,7 +89,7 @@ export async function handle(msg, get) {
         protocolVersion: params?.protocolVersion || '2025-06-18',
         capabilities: { tools: {} },
         serverInfo: { name: 'fmt-plus', title: 'fmt+', version: VERSION },
-        instructions: 'Read-only Solana trench intel. Start with whats_important(wallet) or live(min_sol).',
+        instructions: 'Read-only Solana trench intel. Start with digest() or coins_up() for the market, whats_important(wallet) for one wallet.',
       });
     if (method === 'tools/list') return ok({ tools: TOOLS });
     if (method === 'ping') return ok({});

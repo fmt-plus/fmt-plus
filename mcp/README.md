@@ -20,5 +20,5 @@ Cursor / any MCP client:
 { "mcpServers": { "fmt": { "url": "https://mcp.fmt.plus" } } }
 ```
 
-Tools: `whats_important`, `trades`, `bags`, `pnl`, `style`, `live`, `top_wallets`.
+Tools: `whats_important`, `trades`, `bags`, `pnl`, `style`, `live`, `top_wallets`, `wallet_stats`, `coins_up`, `digest`.
 Self-host the API: set `FMT_API=http://127.0.0.1:5531/api`.

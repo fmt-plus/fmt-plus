@@ -1,0 +1,36 @@
+/* Mini App: Telegram's theme colors first, the Grid palette as the fallback. */
+.tg-root body { background: var(--tg-theme-bg-color, #eef2f0); }
+.tg {
+  --bg: var(--tg-theme-bg-color, #eef2f0); --fg: var(--tg-theme-text-color, #0e3b36); --mute: var(--tg-theme-hint-color, #4d6662);
+  --card: var(--tg-theme-secondary-bg-color, #ffffff); --btn: var(--tg-theme-button-color, #0e3b36); --btn-fg: var(--tg-theme-button-text-color, #ffffff);
+  --up: #0a7a33; --down: #b0105f; --rule: color-mix(in srgb, var(--fg) 14%, transparent);
+  min-height: 100vh; padding: 16px 16px 72px; background: var(--bg); color: var(--fg); font: 16px/1.45 'Inter Tight Variable', system-ui, sans-serif;
+}
+.tg h1 { margin: 0; font: 400 32px/1.1 'Instrument Serif', Georgia, serif; }
+.tg h2 { margin: 22px 0 8px; font-size: 16px; font-weight: 600; }
+.tg p { margin: 0; }
+.tg-center { display: grid; align-content: center; gap: 14px; text-align: center; }
+.tg-hd p, .tg-dim, .tg-lead { color: var(--mute); font-size: 14px; }
+.tg-lead { margin: 4px 0 12px !important; }
+.tg-tabs { position: sticky; top: 0; z-index: 5; display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin: 14px -16px 8px; padding: 8px 16px; background: var(--bg); border-bottom: 1px solid var(--rule); }
+.tg-tabs button, .tg-seg button { min-height: 40px; border: 0; border-radius: 10px; background: var(--card); color: var(--fg); font: 600 14px inherit; font-family: inherit; }
+.tg-tabs button[aria-pressed='true'], .tg-seg button[aria-pressed='true'] { background: var(--btn); color: var(--btn-fg); }
+.tg-list { list-style: none; margin: 0; padding: 0; background: var(--card); border-radius: 14px; }
+.tg-list li { padding: 12px 14px; border-bottom: 1px solid var(--rule); }
+.tg-list li:last-child { border-bottom: 0; }
+.tg-list li > div:first-child { display: flex; justify-content: space-between; gap: 10px; }
+.tg-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.tg-up { color: var(--up); font-weight: 600; }
+.tg-down { color: var(--down); font-weight: 600; }
+.tg-empty { padding: 28px 12px; text-align: center; color: var(--mute); background: var(--card); border-radius: 14px; }
+.tg-btn { min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; background: var(--btn); color: var(--btn-fg); font: 600 14px inherit; font-family: inherit; }
+.tg-btn-quiet { background: transparent; color: var(--fg); box-shadow: inset 0 0 0 1px var(--rule); }
+.tg-add { display: grid; gap: 6px; margin-top: 16px; }
+.tg-add label { font-weight: 600; font-size: 15px; }
+.tg-add > div { display: flex; gap: 8px; }
+.tg-add input { flex: 1; min-width: 0; min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--rule); background: var(--card); color: var(--fg); font: 14px 'JetBrains Mono Variable', monospace; }
+.tg-seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; }
+.tg-switch { display: flex; gap: 12px; align-items: flex-start; margin-top: 22px; padding: 14px; background: var(--card); border-radius: 14px; }
+.tg-switch input { width: 22px; height: 22px; margin-top: 2px; accent-color: var(--btn); }
+.tg-switch > span { display: grid; gap: 2px; }
+.tg-note { position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); padding: 10px 18px; border-radius: 999px; background: var(--fg); color: var(--bg); font-weight: 600; font-size: 14px; }
