@@ -11,6 +11,7 @@ import { SectionTitle } from '../kit/index.ts';
 import { COOKER, live, loadWallet, wallets } from '../state/live.ts';
 import { toast } from '../state/ui.ts';
 import { Dither, Footer, Lbl, Playground } from './parts.tsx';
+import { IconTelegram } from '../ui/Icons.tsx';
 
 const tg = createStore<{ on: boolean; username: string | null; read: boolean }>({ on: false, username: null, read: false });
 function loadTg() {
@@ -28,7 +29,8 @@ export function TgButton({ w, small }: { w?: string; small?: boolean }) {
   if (!t.on || !t.username) return null;
   return (
     <a className={`g-cta g-cta-tg${small ? ' g-cta-s' : ''}`} href={`https://t.me/${t.username}${w ? `?start=${w}` : ''}`} target="_blank" rel="noopener noreferrer">
-      ✈ {w ? copy.wpage.watch : copy.connect.tg}
+      <IconTelegram size={17} />
+      {w ? copy.wpage.watch : copy.connect.tg}
     </a>
   );
 }
@@ -119,7 +121,10 @@ export function Connect() {
           <SectionTitle text={C.title} as="h1" className="g-h1" />
           <p className="g-dim">{C.lead}</p>
           <div className="g-acts">
-            {t.on ? <TgButton /> : <span className="g-cta g-cta-off">✈ {C.tg} · {C.soon}</span>}
+            {t.on ? <TgButton /> : <span className="g-cta g-cta-off">
+                <IconTelegram size={17} />
+                {C.tg} · {C.soon}
+              </span>}
             <a className="g-cta g-cta-b" href="/tools" onClick={linkClick}>
               {copy.home.npx}
             </a>
@@ -136,7 +141,7 @@ export function Connect() {
           ))}
           <div className="g-push">
             <b>{t.username ? `@${t.username}` : 'fmt+'}</b>
-            <span className="g-down">●</span> Cooker sold 79 SOL of $FLOAT
+            <i className="g-dot sell" aria-hidden /> Cooker sold 79 SOL of $FLOAT
           </div>
         </div>
       </div>

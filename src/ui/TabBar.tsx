@@ -2,31 +2,25 @@
 import { copy } from '../copy.ts';
 import { useStore } from '../lib/react.ts';
 import { linkClick, route } from '../lib/router.ts';
-import { openSheet } from '../state/ui.ts';
-import { xUrl } from './Header.tsx';
-import { IconDocs, IconHome, IconShare, IconX } from './Icons.tsx';
+import { IconChart, IconDocs, IconHome, IconLink } from './Icons.tsx';
+
+const TABS = [
+  ['/', copy.nav.home, IconHome],
+  ['/live', copy.home.footer.live, IconChart],
+  ['/tools', copy.home.footer.tools, IconLink],
+  ['/docs', copy.nav.docs, IconDocs],
+] as const;
 
 export function TabBar() {
   const path = useStore(route, (s) => s.path);
-  const docs = path.startsWith('/docs');
   return (
     <nav className="tabs" aria-label="Tabs">
-      <a href="/" onClick={linkClick} aria-current={docs ? undefined : 'page'}>
-        <IconHome size={22} />
-        <span>{copy.nav.app}</span>
-      </a>
-      <a href="/docs" onClick={linkClick} aria-current={docs ? 'page' : undefined}>
-        <IconDocs size={22} />
-        <span>{copy.nav.docs}</span>
-      </a>
-      <button type="button" onClick={() => openSheet('share')}>
-        <IconShare size={22} />
-        <span>{copy.nav.share}</span>
-      </button>
-      <a href={xUrl} target="_blank" rel="noopener noreferrer">
-        <IconX size={19} />
-        <span>{copy.nav.x}</span>
-      </a>
+      {TABS.map(([href, label, Icon]) => (
+        <a key={href} href={href} onClick={linkClick} aria-current={(href === '/' ? path === '/' : path.startsWith(href)) ? 'page' : undefined}>
+          <Icon size={22} />
+          <span>{label}</span>
+        </a>
+      ))}
     </nav>
   );
 }

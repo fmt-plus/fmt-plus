@@ -1,5 +1,5 @@
-// Landing in the Grid look: wordmark → three phones (Cooker's wallet · live pushes · swap bars) → stat cells →
-// tape + MCP playground → solid cells → top wallets → footer.
+// Landing in the Grid look: wordmark, three phones (Cooker's swap bars · live pushes · Cooker's swaps), Cooker's
+// flow cells, swap bars + live tape + MCP playground, the watched wallets as a ruled list, footer.
 import { useEffect } from 'react';
 import { copy } from '../copy.ts';
 import { sol } from '../core/format.ts';
@@ -8,6 +8,7 @@ import { linkClick } from '../lib/router.ts';
 import { COOKER, live, loadWallet, wallets } from '../state/live.ts';
 import { Dither, Footer, Lbl, Phone, Playground, PushFeed, SwapBars, Tape } from './parts.tsx';
 import { Find } from './Find.tsx';
+import { IconArrowRight, IconArrowUpRight } from '../ui/Icons.tsx';
 
 export function Home() {
   const v = useStore(wallets, (s) => s[COOKER]?.v);
@@ -17,7 +18,7 @@ export function Home() {
   const name = v?.name ?? 'Cooker';
   const lines = copy.home.title.split('\n');
   return (
-    <main className="g">
+    <main className="g g-home">
       <div className="g-word" aria-label="fmt+">
         fmt<sup>+</sup>
         <span className="g-cursor" />
@@ -34,15 +35,14 @@ export function Home() {
             <PushFeed n={7} />
           </Phone>
           <Phone>
-            <Lbl>{copy.home.bags}</Lbl>
+            <Lbl>{copy.home.swaps}</Lbl>
             <div className="g-minibags">
-              {(v?.bags ?? []).slice(0, 6).map((b) => (
-                <div key={b.mint}>
-                  <b>${b.sym}</b>
-                  <span>${Math.round(b.usd).toLocaleString('en-US')}</span>
+              {(v?.swaps ?? []).slice(0, 8).map((x) => (
+                <div key={x.sig}>
+                  <b className={x.side === 'sell' ? 'g-down' : 'g-up'}>{x.side}</b>
+                  <span>{sol(x.sol)} SOL</span>
                 </div>
               ))}
-              {v && !v.bags.length && <div className="g-dim">{copy.wpage.bagsEmpty}</div>}
             </div>
           </Phone>
         </div>
@@ -56,7 +56,8 @@ export function Home() {
           </h1>
           <div>
             <a className="g-cta" href="/connect" onClick={linkClick}>
-              ↗ {copy.home.deploy}
+              {copy.home.deploy}
+              <IconArrowUpRight size={18} />
             </a>
             <a className="g-cta g-cta-b" href="/tools" onClick={linkClick}>
               {copy.home.npx}
@@ -99,38 +100,21 @@ export function Home() {
           <Playground v={v} name={name} />
         </div>
       </div>
-      <div className="g-row g-r4">
-        <div className="g-green">
-          <Lbl>{copy.home.replaces}</Lbl>
-          <div className="g-big">{copy.home.tabs}</div>
-        </div>
-        <div>
-          <Lbl>{copy.home.perDay}</Lbl>
-          <div className="g-big">≤ 12</div>
-        </div>
-        <div>
-          <Lbl>{copy.home.keys}</Lbl>
-          <div className="g-big">0</div>
-        </div>
-        <div>
-          <Lbl>{copy.home.source}</Lbl>
-          <div className="g-big">MIT</div>
-        </div>
-      </div>
       <div className="g-row g-r1">
         <div>
           <div className="g-head">
             <Lbl>{copy.home.boardTitle}</Lbl>
             <a href="/wallets" onClick={linkClick} className="g-link">
-              {copy.home.seeAll} →
+              {copy.home.seeAll}
             </a>
           </div>
-          <div className="g-chips">
+          <div className="g-board">
             {board.map((b) => (
-              <a key={b.w} href={`/w/${b.w}`} onClick={linkClick} className="g-chip">
+              <a key={b.w} href={`/w/${b.w}`} onClick={linkClick}>
                 <b>{b.name}</b>
-                <span>{b.sol !== null ? `${sol(b.sol)} SOL` : '…'}</span>
-                <span className="g-dim">{b.trades} swaps</span>
+                <span className="g-num">{b.sol !== null ? `${sol(b.sol)} SOL` : ''}</span>
+                <span className="g-num g-dim">{b.trades} swaps</span>
+                <IconArrowRight size={16} />
               </a>
             ))}
           </div>

@@ -26,6 +26,24 @@ export const IconGitHub = ({ size = 18, ...p }: P) => (
   </svg>
 );
 
+export const IconArrowUpRight = ({ size = 16, ...p }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...p}>
+    <path d="M7 17 17 7M8 7h9v9" />
+  </svg>
+);
+
+export const IconArrowRight = ({ size = 16, ...p }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...p}>
+    <path d="M5 12h14M13 6l6 6-6 6" />
+  </svg>
+);
+
+export const IconTelegram = ({ size = 18, ...p }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...p}>
+    <path d="M21.9 4.3 18.6 19.8c-.25 1.1-.9 1.37-1.82.85l-5-3.69-2.42 2.33c-.27.27-.49.49-1 .49l.36-5.1L18 6.3c.4-.36-.09-.56-.62-.2L5.95 13.3 1.03 11.76c-1.07-.33-1.09-1.07.22-1.58L20.5 2.76c.9-.33 1.68.2 1.4 1.54z" />
+  </svg>
+);
+
 export const IconCopy = ({ size, ...p }: P) => (
   <svg {...base(size)} {...p}>
     <rect x="8.5" y="8.5" width="12" height="12" rx="3.2" />

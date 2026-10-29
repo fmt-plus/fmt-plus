@@ -109,7 +109,7 @@ export function Wallet({ w }: { w: string }) {
                   .map((s) => (
                     <a key={s.sig} href={`https://solscan.io/tx/${s.sig}`} target="_blank" rel="noopener noreferrer" className="g-push">
                       <b>{ago(s.t)}</b>
-                      <span className={s.side === 'sell' ? 'g-down' : 'g-up'}>●</span> {pushText({ ...s, name, sym: s.sym ?? null })}
+                      <i className={`g-dot ${s.side}`} aria-hidden /> {pushText({ ...s, name, sym: s.sym ?? null })}
                       <em>{sym(s.sym, s.mint)}</em>
                     </a>
                   ))}

@@ -51,7 +51,7 @@ export function Live() {
                     </a>
                   </td>
                   <td>
-                    <span className="g-score" style={{ width: `${e.score}%` }} />
+                    <span className="g-score" style={{ width: `${e.score}%`, opacity: 0.35 + e.score / 160 }} />
                   </td>
                   <td className="g-r g-dim">{ago(e.t)}</td>
                 </tr>

@@ -32,7 +32,7 @@ export function PushFeed({ n = 6, min = 0 }: { n?: number; min?: number }) {
       {list.map((e) => (
         <a key={e.sig} className={`g-push${arrived.has(e.sig) ? ' is-new' : ''}`} href={`/w/${e.w}`} onClick={linkClick}>
           <b>{fill(copy.push.now, { ago: ago(e.t) })}</b>
-          <span className={e.side === 'sell' ? 'g-down' : 'g-up'}>●</span> {pushText(e)}
+          <i className={`g-dot ${e.side}`} aria-hidden /> {pushText(e)}
         </a>
       ))}
     </div>
@@ -62,7 +62,7 @@ export function SwapBars({ swaps, h = 150 }: { swaps: Swap[]; h?: number }) {
         ))}
       </div>
       <div className="g-mono g-small">
-        ▸ {cur ? `${cur.side} ${sol(cur.sol)} SOL · ${sym(cur.sym, cur.mint)} · ${ago(cur.t)}` : copy.home.tapBar}
+        {cur ? `${cur.side} ${sol(cur.sol)} SOL · ${sym(cur.sym, cur.mint)} · ${ago(cur.t)}` : copy.home.tapBar}
       </div>
     </div>
   );
@@ -96,17 +96,17 @@ export function toolOut(name: string, v: WalletView | undefined, events: Trade[]
   const big = v.swaps.slice().sort((a, b) => b.sol - a.sol).slice(0, 3);
   switch (name) {
     case 'whats_important':
-      return `→ ${big.length} events\n` + big.map((s) => `• ${s.side} ${sol(s.sol)} SOL ${sym(s.sym, s.mint)} · ${ago(s.t)}`).join('\n');
+      return `${big.length} events\n` + big.map((s) => `  ${s.side} ${sol(s.sol)} SOL ${sym(s.sym, s.mint)} · ${ago(s.t)}`).join('\n');
     case 'pnl':
-      return `→ in  ${sol(v.flow.in)} SOL\n  out ${sol(v.flow.out)} SOL\n  net ${v.flow.net > 0 ? '+' : ''}${sol(v.flow.net)} SOL`;
+      return `in  ${sol(v.flow.in)} SOL\n  out ${sol(v.flow.out)} SOL\n  net ${v.flow.net > 0 ? '+' : ''}${sol(v.flow.net)} SOL`;
     case 'bags':
-      return v.bags.length ? '→ ' + v.bags.slice(0, 5).map((b) => `$${b.sym} ${usd(b.usd)}`).join('\n  ') : `→ ${sol(v.sol)} SOL`;
+      return v.bags.length ?  v.bags.slice(0, 5).map((b) => `$${b.sym} ${usd(b.usd)}`).join('\n  ') : `${sol(v.sol)} SOL`;
     case 'style':
-      return `→ "${v.style.kind}"\n  typical buy ${sol(v.style.size)} SOL\n  ${v.style.perHour} swaps / h`;
+      return `"${v.style.kind}"\n  typical buy ${sol(v.style.size)} SOL\n  ${v.style.perHour} swaps / h`;
     case 'trades':
-      return '→ ' + v.swaps.slice(0, 5).map((s) => `${s.side} ${sol(s.sol)} ${sym(s.sym, s.mint)}`).join('\n  ');
+      return v.swaps.slice(0, 5).map((s) => `${s.side} ${sol(s.sol)} ${sym(s.sym, s.mint)}`).join('\n  ');
     case 'watch':
-      return `→ watching ${short(v.w)}\n  ${events.filter((e) => e.w === v.w).length} swaps seen live`;
+      return `watching ${short(v.w)}\n  ${events.filter((e) => e.w === v.w).length} swaps seen live`;
     default:
       return '';
   }
