@@ -1,0 +1,30 @@
+{
+  "name": "fmt-plus",
+  "version": "0.1.0",
+  "description": "fmt+ MCP: every trench tool for your AI agent. Read-only Solana wallet intel. Zero keys.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "fmt-plus": "index.mjs"
+  },
+  "files": [
+    "index.mjs",
+    "core.mjs",
+    "SKILL.md",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "mcp",
+    "solana",
+    "trading",
+    "agent",
+    "claude",
+    "cursor"
+  ],
+  "scripts": {
+    "prepack": "cp ../server/lib/mcp-core.mjs core.mjs"
+  }
+}

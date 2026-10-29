@@ -1,0 +1,39 @@
+# {{NAME}} — written by deploy/release.sh to /etc/caddy/sites/{{SLUG}}.caddy
+# (the main /etc/caddy/Caddyfile needs one line: import sites/*.caddy)
+{{DOMAIN}} {
+	handle /api/* {
+		reverse_proxy 127.0.0.1:{{PORT}} {
+			# SSE (/api/stream): pass every event at once
+			flush_interval -1
+		}
+	}
+	handle {
+		encode zstd gzip
+		root * /srv/{{SLUG}}/current/app/dist
+		@assets path /assets/*
+		header @assets Cache-Control "public, max-age=31536000, immutable"
+		@pages not path /assets/*
+		header @pages Cache-Control "no-cache"
+		try_files {path} /index.html
+		file_server
+	}
+}
+
+www.{{DOMAIN}} {
+	redir https://{{DOMAIN}}{uri} 308
+}
+
+docs.{{DOMAIN}} {
+	redir https://{{DOMAIN}}/docs{uri} 308
+}
+
+# remote MCP (Streamable HTTP): POST → /api/mcp; a browser GET goes to the tools page
+mcp.{{DOMAIN}} {
+	@browser {
+		method GET
+		not header Accept *text/event-stream*
+	}
+	redir @browser https://{{DOMAIN}}/tools 302
+	rewrite * /api/mcp
+	reverse_proxy 127.0.0.1:{{PORT}}
+}

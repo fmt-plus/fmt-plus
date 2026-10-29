@@ -1,0 +1,32 @@
+{
+  "name": "fmt+",
+  "slug": "fmt",
+  "ticker": "FMTP",
+  "domain": "fmt.plus",
+  "x": "fmtplus",
+  "tagline": "Every trench tool. One agent. Yours.",
+  "theme": "light",
+  "motion": "glide",
+  "signature": "card-deal",
+  "markFile": true,
+  "markColor": "#0000ff",
+  "palette": {
+    "bg": "#eef2f0",
+    "surface": "#ffffff",
+    "ink": "#0e3b36",
+    "mute": "#5b7470",
+    "accent": "#0000ff",
+    "line": "#e5eae9",
+    "accent2": "#b7f540",
+    "up": "#0a8a3a",
+    "down": "#c0136b"
+  },
+  "fonts": {
+    "display": "Inter Tight",
+    "body": "Inter Tight",
+    "mono": "JetBrains Mono"
+  },
+  "fontLinks": [],
+  "displayWeight": 760,
+  "surface2": "#f6f7f7"
+}

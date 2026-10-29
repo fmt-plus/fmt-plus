@@ -1,0 +1,13 @@
+node_modules/
+dist/
+data/
+.shots/
+*.log
+.DS_Store
+deploy/.stage/
+# private: owner pipeline, agent notes, box address
+.trench/
+CLAUDE.md
+AGENTS.md
+deploy/release.conf
+mcp/node_modules/

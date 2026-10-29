@@ -1,0 +1,213 @@
+/* Motion: transform and opacity only. Tokens: --t-fast 140ms, --t-med 220ms, --t-slow 320ms, --ease (out),
+   --spring. The brand's motion signature (html[data-signature], from brand.json.motion) picks how new things arrive
+   and how digits roll (--t-roll / --ease-roll in tokens.css): glide, pop, split-flap, odometer, card-deal,
+   pulse-ring, ticker-tape, stamp. html[data-motion] keeps the coarse family (glide | pop | flip). */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+}
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.96);
+  }
+}
+@keyframes pulse {
+  from {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.8);
+  }
+}
+@keyframes glow {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes enter-glide {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+@keyframes enter-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+@keyframes enter-flip {
+  from {
+    opacity: 0;
+    transform: perspective(700px) rotateX(-62deg);
+  }
+}
+
+@keyframes enter-deal {
+  from {
+    opacity: 0;
+    transform: translateX(28px) rotate(-3deg);
+  }
+}
+@keyframes enter-tape {
+  from {
+    opacity: 0;
+    transform: translateX(48px);
+  }
+}
+@keyframes enter-stamp {
+  0% {
+    opacity: 0;
+    transform: scale(1.18);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(0.985);
+  }
+}
+@keyframes enter-odo {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+@keyframes ring {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.05, 1.25);
+  }
+}
+
+/* rolling digits */
+.roll {
+  display: inline-flex;
+  align-items: baseline;
+}
+.rd {
+  display: inline-block;
+  height: 1em;
+  line-height: 1;
+  overflow: hidden;
+}
+.rd-s {
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--t-roll) var(--ease-roll);
+  will-change: transform;
+}
+.rd-s > span,
+.rc {
+  display: block;
+  height: 1em;
+  line-height: 1;
+}
+
+/* new things arrive */
+.enter {
+  animation: enter-glide var(--t-slow) var(--ease) both;
+  transform-origin: 50% 0;
+}
+[data-motion='pop'] .enter {
+  animation: enter-pop var(--t-slow) var(--spring) both;
+}
+[data-motion='flip'] .enter {
+  animation: enter-flip var(--t-slow) var(--spring) both;
+}
+.row-new::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1.5px var(--accent-glow);
+  pointer-events: none;
+  animation: glow 1.4s var(--ease) 0.08s both;
+}
+.row-new > * {
+  position: relative;
+}
+.row-new {
+  animation: enter-glide var(--t-slow) var(--ease) both;
+}
+[data-motion='pop'] .row-new {
+  animation-name: enter-pop;
+  animation-timing-function: var(--spring);
+}
+[data-motion='flip'] .row-new {
+  animation-name: enter-flip;
+  animation-timing-function: var(--spring);
+  transform-origin: 50% 0;
+}
+
+/* signatures (override the family above) */
+[data-signature='odometer'] .enter,
+[data-signature='odometer'] .row-new {
+  animation: enter-odo calc(var(--t-slow) * 1.4) cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+[data-signature='card-deal'] .enter,
+[data-signature='card-deal'] .row-new {
+  animation: enter-deal var(--t-slow) var(--spring) both;
+  transform-origin: 0 100%;
+}
+[data-signature='ticker-tape'] .enter,
+[data-signature='ticker-tape'] .row-new {
+  animation: enter-tape 260ms linear both;
+}
+[data-signature='stamp'] .enter,
+[data-signature='stamp'] .row-new {
+  animation: enter-stamp 280ms cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+[data-signature='pulse-ring'] .enter,
+[data-signature='pulse-ring'] .row-new {
+  animation: enter-pop var(--t-slow) var(--ease) both;
+}
+[data-signature='pulse-ring'] .row-new::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 2px var(--accent);
+  pointer-events: none;
+  animation: ring 900ms var(--ease) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+  .rows {
+    transition: none !important;
+  }
+}

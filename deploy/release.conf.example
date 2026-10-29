@@ -1,0 +1,8 @@
+# deploy/release.sh settings. No secrets here (KEY is a path). `trench init` writes deploy/release.conf from this.
+HOST=203.0.113.10
+SSH_USER=root
+KEY=~/.ssh/id_ed25519
+SLUG=fmt
+PORT=5531
+DOMAIN=fmt.plus
+NAME=fmt+

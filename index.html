@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" data-theme="%TK_THEME%">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="%TK_BG%" />
+    <meta name="color-scheme" content="%TK_THEME%" />
+    <title>%TK_NAME% · %TK_TAGLINE%</title>
+    <meta name="description" content="%TK_TAGLINE%" />
+    <link rel="canonical" href="https://%TK_DOMAIN%/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="%TK_NAME%" />
+    <meta property="og:title" content="%TK_NAME% · %TK_TAGLINE%" />
+    <meta property="og:description" content="%TK_TAGLINE%" />
+    <meta property="og:url" content="https://%TK_DOMAIN%/" />
+    <meta property="og:image" content="https://%TK_DOMAIN%/og.png?v=%TK_ASSET_V%" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@%TK_X%" />
+    <meta name="twitter:title" content="%TK_NAME% · %TK_TAGLINE%" />
+    <meta name="twitter:image" content="https://%TK_DOMAIN%/og.png?v=%TK_ASSET_V%" />
+    %TK_ICON_LINKS%
+    %TK_FONT_LINKS%
+    <script>
+      // The first second: ask for the snapshot while the app code is still loading (src/core/live.ts takes it).
+      (function () {
+        try {
+          var b = (window.__tkBoot = { at: Date.now() });
+          b.snap = fetch('/api/snapshot', { headers: { accept: 'application/json' } })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .catch(function () { return null; });
+        } catch (e) {}
+      })();
+    </script>
+    <style>
+      /* first paint, before the app code: the page ground and the layout's shape in brand colors (React replaces #root) */
+      html { background: %TK_BG%; }
+      body { margin: 0; background: %TK_BG%; min-height: 100vh; }
+      .sk { position: fixed; inset: 0; }
+      .sk i, .sk b, .sk s, .sk u { display: block; border-radius: 28px; background: %TK_SURFACE%; text-decoration: none; }
+      .sk-top { height: 76px; display: flex; align-items: center; gap: 12px; padding: 0 clamp(16px, 3vw, 40px); }
+      .sk-top i { width: 38px; height: 38px; border-radius: 12px; background: %TK_ACCENT%; }
+      .sk-top b { width: 120px; height: 18px; border-radius: 9px; }
+      .sk-main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; padding: 8px clamp(16px, 3vw, 40px) 24px; height: calc(100vh - 108px); }
+      .sk-rows { display: grid; gap: 10px; align-content: start; padding: 22px; border-radius: 34px; background: %TK_SURFACE%; }
+      .sk-rows u { height: 64px; border-radius: 18px; background: %TK_SURFACE2%; animation: sk 1.6s ease-in-out infinite alternate; }
+      .sk-main > s { border-radius: 34px; }
+      @keyframes sk { from { opacity: 1; } to { opacity: 0.55; } }
+      @media (max-width: 760px) {
+        .sk-top { height: 60px; }
+        .sk-main { grid-template-columns: 1fr; grid-template-rows: 300px 1fr; gap: 14px; height: calc(100vh - 220px); }
+        .sk-rows { padding: 14px; border-radius: 26px; }
+        .sk-rows u { height: 56px; }
+      }
+      @media (prefers-reduced-motion: reduce) { .sk-rows u { animation: none; } }
+    </style>
+  </head>
+  <body>
+    <div id="root"><div class="sk" aria-hidden="true"><div class="sk-top"><i></i><b></b></div><div class="sk-main"><s></s><div class="sk-rows"><u></u><u></u><u></u><u></u><u></u><u></u></div></div></div></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

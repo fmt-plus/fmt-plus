@@ -1,0 +1,72 @@
+/* GENERATED from .trench/brand.json by scripts/brand.mjs — edit brand.json and run `npm run brand`. */
+:root {
+  color-scheme: light;
+  /* palette */
+  --bg: #eef2f0;
+  --surface: #ffffff;
+  --surface-hi: #ffffff;
+  --surface-2: #f6f7f7;
+  --surface-3: #edf0ef;
+  --ink: #0e3b36;
+  --ink-2: #375954;
+  --mute: #5b7470;
+  --line: #e5eae9;
+  --accent: #0000ff;
+  --accent-hi: #0029ff;
+  --accent-ink: #ffffff;
+  --accent-edge: rgba(255, 255, 255, 0.22);
+  --accent-soft: rgba(0, 0, 255, 0.12);
+  --accent-wash: rgba(0, 0, 255, 0.1);
+  --accent-glow: rgba(0, 0, 255, 0.42);
+  --accent2: #b7f540;
+  --accent2-ink: #041d1a;
+  --accent2-wash: rgba(183, 245, 64, 0.07);
+  --up: #0a8a3a;
+  --down: #c0136b;
+  --up-soft: rgba(10, 138, 58, 0.18);
+  --down-soft: rgba(192, 19, 107, 0.18);
+  --tint-0: #cadcfe;
+  --tint-0-ink: #0000ff;
+  --tint-1: #ecf8e0;
+  --tint-1-ink: #578c00;
+  --tint-2: #d9e7db;
+  --tint-2-ink: #0a8a3a;
+  --tint-3: #dde8fb;
+  --tint-3-ink: #0000ff;
+  --tint-4: #f0f7ea;
+  --tint-4-ink: #5c9300;
+  --tint-5: #e7ebea;
+  --tint-5-ink: #0e3b36;
+  --tint-ink: var(--tint-0-ink);
+  --mark-color: #0000ff;
+  --hl: rgba(255, 255, 255, 0.85);
+  --scrim: rgba(14, 59, 54, 0.34);
+  --shadow-card: 0 1px 2px rgba(14, 59, 54, 0.05), 0 14px 36px -18px rgba(14, 59, 54, 0.2), inset 0 0 0 1px rgba(14, 59, 54, 0.035);
+  --shadow-1: 0 1px 2px rgba(14, 59, 54, 0.06), 0 6px 16px -8px rgba(14, 59, 54, 0.14);
+  --shadow-pop: 0 30px 70px -22px rgba(14, 59, 54, 0.38), 0 2px 8px rgba(14, 59, 54, 0.08);
+
+  /* type */
+  --font-display: 'Inter Tight Variable', 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter Tight Variable', 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --display-weight: 760;
+  --display-tracking: -0.035em;
+
+  /* shape */
+  --page: 1440px;
+  --gutter: clamp(16px, 3vw, 40px);
+  --r-sm: 12px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-xl: 32px;
+
+  /* motion (signature: card-deal) */
+  --t-fast: 140ms;
+  --t-med: 220ms;
+  --t-slow: 320ms;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --spring: linear(0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%, 0.937 38.1%, 0.968 41.8%, 0.991 45.7%, 1.006 50.1%, 1.015 55%, 1.017 63.9%, 1.001 85.6%, 1);
+  --t-roll: var(--t-slow);
+  --ease-roll: var(--ease);
+  --ease-glide: var(--spring);
+}

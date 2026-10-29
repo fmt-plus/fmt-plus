@@ -1,0 +1,465 @@
+/* Home: the live product. Desktop: hero left (dot field, typed coin, live numbers, flow map, actions), token + feed
+   right, on one screen. Phone: hero (typed coin, live numbers, the 3-part flow map stacked), token, the feed in its own
+   scrolling panel, dock; the page scrolls (constitution §2: rich, almost no text). */
+.home {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  max-width: var(--page);
+  height: calc(100dvh - 76px);
+  min-height: 640px;
+  margin: 0 auto;
+  padding: 4px var(--gutter) 24px;
+}
+.home-a,
+.home-b {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 0;
+}
+
+/* hero */
+.hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: clamp(22px, 2.4vw, 34px);
+}
+.hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.pill-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 34px;
+  padding: 0 14px 0 12px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  box-shadow: inset 0 1px 0 var(--hl);
+  font-size: 14px;
+  font-weight: 640;
+  color: var(--ink-2);
+}
+.pulse {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--up);
+}
+.pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--up);
+  animation: pulse 1.8s var(--ease) infinite;
+}
+.hero-typed {
+  margin-top: clamp(14px, 2.4vh, 26px);
+}
+.hero-stats {
+  margin-top: auto;
+  padding-top: clamp(18px, 3vh, 32px);
+}
+.big-sk {
+  display: block;
+  width: 2.6em;
+  height: 0.92em;
+  margin-top: auto;
+  font-size: clamp(54px, 9vh, 104px);
+  border-radius: 24px;
+  background: var(--surface-2);
+  animation: blink 0.9s var(--ease) infinite alternate;
+}
+.hero-flow {
+  margin-top: auto; /* the free height splits above the numbers and above the flow map */
+  padding-top: clamp(18px, 3vh, 30px);
+}
+.hero-flow .tick {
+  font-size: 14.5px;
+}
+.hero-flow .age {
+  font-size: 12.5px;
+}
+.flow-you {
+  display: grid;
+  gap: 10px;
+}
+.flow-you dt {
+  font-size: 12.5px;
+  font-weight: 650;
+  opacity: 0.82;
+}
+.flow-you dd {
+  font-size: 21px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+.flow-sk {
+  display: block;
+  height: 104px;
+  border-radius: 12px;
+  background: var(--accent-edge);
+  animation: blink 0.9s var(--ease) infinite alternate;
+}
+.nm {
+  overflow: hidden;
+  font-size: 15px;
+  color: var(--mute);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.age {
+  flex: none;
+  color: var(--mute);
+  font-size: 14px;
+}
+.hero-act {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  margin-top: clamp(16px, 2.6vh, 24px);
+}
+
+/* token card */
+.tok {
+  display: grid;
+  gap: 16px;
+  padding: 20px 22px;
+}
+.tok-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.tok-id {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.tok-id .tick {
+  font-size: 24px;
+  line-height: 1.1;
+}
+.tok-off {
+  font-size: 14px;
+  font-weight: 640;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.tok-px {
+  display: grid;
+  justify-items: end;
+  margin-left: auto;
+  white-space: nowrap;
+}
+.tok-px b {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 24px;
+}
+.tok-ch {
+  font-style: normal;
+  font-size: 15px;
+}
+.tok-mc {
+  font-size: 14px;
+  color: var(--mute);
+}
+.tok-row {
+  display: flex;
+  gap: 8px;
+}
+.tok-ca {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+  height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--surface-2);
+  color: var(--ink);
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform var(--t-fast) var(--ease);
+}
+.tok-ca:active {
+  transform: scale(0.98);
+}
+.tok-ca .mono {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tok-buy {
+  padding: 0 20px;
+}
+.tok-link {
+  padding: 0 14px;
+  gap: 7px;
+}
+.tok-short {
+  display: none;
+}
+
+/* feed */
+.feed {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 20px 14px 0 18px;
+  overflow: hidden;
+}
+.feed-hd {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 6px 12px;
+}
+.feed-hd .k-stitle {
+  font-size: 21px;
+}
+.feed-clip {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent);
+  mask-image: linear-gradient(to bottom, #000 78%, transparent);
+}
+.rows {
+  display: grid;
+  gap: 4px;
+  transition: transform var(--t-slow) var(--ease-glide);
+}
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 52px 92px 44px 44px;
+  align-items: center;
+  gap: 14px;
+  height: 66px;
+  padding: 0 6px 0 8px;
+  border-radius: 20px;
+  transition: background-color var(--t-med) var(--ease);
+}
+@media (hover: hover) {
+  .row:hover {
+    background: var(--surface-2);
+  }
+}
+.row-id {
+  display: grid;
+  min-width: 0;
+}
+.row .tick {
+  overflow: hidden; /* spam tickers run long: they end in … before the mcap column */
+  font-size: 17px;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.row .nm {
+  font-size: 15px;
+}
+.row .age {
+  text-align: right;
+}
+.row-m {
+  text-align: right;
+  font-size: 17px;
+}
+.row-sk {
+  background: var(--surface-2);
+  animation: blink 0.9s var(--ease) infinite alternate;
+}
+
+/* short desktop screens: the flow map steps aside so the home still fits one screen */
+@media (min-width: 761px) and (max-height: 750px) {
+  .hero .hero-flow {
+    display: none;
+  }
+}
+
+/* phones */
+@media (max-width: 760px) {
+  .home {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: auto;
+    min-height: calc(100dvh - 60px);
+    padding: 2px var(--gutter) calc(150px + env(safe-area-inset-bottom));
+  }
+  .home-a,
+  .home-b {
+    gap: 12px;
+  }
+  .home-a {
+    flex: none;
+  }
+  .home-b {
+    flex: none;
+    height: 64dvh;
+    min-height: 420px;
+  }
+  .hero {
+    flex: none;
+    padding: 18px 18px 18px;
+    border-radius: var(--r-lg);
+  }
+  .hero-share,
+  .hero-act {
+    display: none;
+  }
+  .pill-live {
+    height: 30px;
+    font-size: 13px;
+  }
+  .hero-typed {
+    margin-top: 12px;
+  }
+  .hero-typed .k-hero {
+    gap: 10px;
+  }
+  .hero-stats,
+  .big-sk {
+    margin-top: 0;
+    padding-top: 14px;
+  }
+  .big-sk {
+    padding-top: 0;
+    margin-top: 14px;
+    font-size: 56px;
+  }
+  .hero .hero-flow {
+    margin-top: 16px;
+  }
+  .tok {
+    gap: 10px;
+    padding: 12px;
+    border-radius: var(--r-lg);
+  }
+  .tok .mark-plate {
+    --mark: 36px !important;
+  }
+  .tok-top {
+    gap: 10px;
+  }
+  .tok-id .tick {
+    font-size: 18px;
+  }
+  .tok-off {
+    font-size: 14px;
+  }
+  .tok-px b {
+    font-size: 17px;
+    gap: 6px;
+  }
+  .tok-ch {
+    font-size: 14px;
+  }
+  .tok-mc {
+    display: none;
+  }
+  .tok-row {
+    gap: 6px;
+  }
+  .tok-ca {
+    height: 40px;
+    padding: 0 10px;
+    font-size: 13.5px;
+  }
+  .tok-row .btn {
+    --h: 40px;
+    font-size: 14px;
+  }
+  .tok-buy {
+    padding: 0 16px;
+  }
+  .tok-link {
+    width: 40px;
+    padding: 0;
+  }
+  .tok-long {
+    display: none;
+  }
+  .tok-short {
+    display: inline;
+  }
+  .feed {
+    padding: 14px 8px 0 12px;
+    border-radius: var(--r-lg);
+  }
+  .feed-hd {
+    padding: 0 4px 6px;
+  }
+  .feed-hd .k-stitle {
+    font-size: 17px;
+  }
+  .row {
+    grid-template-columns: 40px minmax(0, 1fr) auto 44px;
+    grid-template-areas: 'av id m cp' 'av id age cp';
+    row-gap: 0;
+    column-gap: 12px;
+    height: 60px;
+    padding: 0 0 0 4px;
+  }
+  .row > .av {
+    grid-area: av;
+    width: 40px !important;
+    height: 40px !important;
+  }
+  .row-id {
+    grid-area: id;
+  }
+  .row-m {
+    grid-area: m;
+    align-self: end;
+    font-size: 16px;
+  }
+  .row .age {
+    grid-area: age;
+    align-self: start;
+    font-size: 14px;
+  }
+  .row > .btn-icon:not(.row-pf) {
+    grid-area: cp;
+  }
+  .row-pf {
+    display: none !important;
+  }
+  .dock {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc(66px + env(safe-area-inset-bottom));
+    z-index: 25;
+    padding: 18px var(--gutter) 10px;
+    background: linear-gradient(to top, var(--bg) 62%, transparent);
+  }
+  .dock .btn {
+    --h: 58px;
+  }
+  .dock-t {
+    margin-left: 2px;
+    opacity: 0.72;
+    font-weight: 640;
+    max-width: 8ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

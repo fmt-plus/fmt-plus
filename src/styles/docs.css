@@ -1,0 +1,360 @@
+/* Docs: one column, big headings, diagrams themed by the tokens, a worked example, a short FAQ. */
+.docs {
+  display: grid;
+  gap: 20px;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 24px var(--gutter) 64px;
+}
+.docs-hd {
+  padding: 24px 4px 12px;
+}
+.docs-hd h1 {
+  font-family: var(--font-display);
+  font-size: clamp(38px, 5vw, 64px);
+  font-weight: var(--display-weight);
+  line-height: 1;
+  letter-spacing: var(--display-tracking);
+  text-wrap: balance;
+}
+.docs-hd p {
+  margin-top: 14px;
+  font-size: 20px;
+  color: var(--mute);
+}
+.docs-sec {
+  padding: clamp(22px, 3vw, 36px);
+}
+.docs-sec h2 {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--display-tracking);
+  line-height: 1.05;
+}
+.docs-lead {
+  margin-top: 8px;
+  font-size: 18px;
+  color: var(--ink-2);
+}
+.dia-box {
+  margin-top: 22px;
+}
+.dia {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.dia text {
+  font-family: var(--font-body);
+}
+.dia-card {
+  fill: var(--surface-2);
+}
+.dia-num {
+  fill: var(--accent);
+}
+.dia-num-t {
+  fill: var(--accent-ink);
+  font-family: var(--font-display) !important;
+  font-weight: 800;
+}
+.dia-t {
+  fill: var(--ink);
+  font-family: var(--font-display) !important;
+  font-weight: 740;
+  letter-spacing: -0.02em;
+}
+.dia-d {
+  fill: var(--mute);
+  font-weight: 520;
+}
+.dia-arrow {
+  fill: none;
+  stroke: var(--accent);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.7;
+}
+.dia-total {
+  fill: var(--surface-3);
+}
+.dia-total-v {
+  fill: var(--ink);
+  font-family: var(--font-display) !important;
+  font-weight: 780;
+  letter-spacing: -0.03em;
+}
+.dia-total-l {
+  fill: var(--mute);
+  font-weight: 620;
+}
+.dia-rib {
+  opacity: 0.42;
+}
+.dia-stop-0 {
+  stop-color: var(--surface-3);
+}
+.dia-stop-1.dia-accent {
+  stop-color: var(--accent);
+  stop-opacity: 0.55;
+}
+.dia-stop-1.dia-accent2 {
+  stop-color: var(--accent2);
+  stop-opacity: 0.55;
+}
+.dia-stop-1.dia-mute {
+  stop-color: var(--mute);
+  stop-opacity: 0.35;
+}
+.dia-part-v {
+  font-family: var(--font-display) !important;
+  font-weight: 780;
+  letter-spacing: -0.02em;
+}
+.dia-part-l {
+  font-weight: 650;
+  opacity: 0.86;
+}
+.dia-accent .dia-part,
+.dia-bar.dia-accent,
+.dia-accent .dia-dot {
+  fill: var(--accent);
+}
+.dia-accent .dia-part-v,
+.dia-accent .dia-part-l {
+  fill: var(--accent-ink);
+}
+.dia-accent2 .dia-part,
+.dia-bar.dia-accent2,
+.dia-accent2 .dia-dot {
+  fill: var(--accent2);
+}
+.dia-accent2 .dia-part-v,
+.dia-accent2 .dia-part-l {
+  fill: var(--accent2-ink);
+}
+.dia-mute .dia-part,
+.dia-bar.dia-mute {
+  fill: var(--surface-3);
+}
+.dia-mute .dia-dot {
+  fill: var(--mute);
+}
+.dia-mute .dia-part-v,
+.dia-mute .dia-part-l {
+  fill: var(--ink);
+}
+.dia-row-l {
+  fill: var(--ink-2);
+  font-weight: 620;
+}
+.dia-row-v {
+  fill: var(--ink);
+  font-family: var(--font-display) !important;
+  font-weight: 760;
+  letter-spacing: -0.02em;
+}
+
+/* worked example */
+.ex {
+  width: 100%;
+  margin-top: 18px;
+  border-collapse: separate;
+  border-spacing: 0 6px;
+}
+.ex th,
+.ex td {
+  height: 56px;
+  padding: 0 18px;
+  background: var(--surface-2);
+  font-size: 17px;
+  text-align: left;
+}
+.ex thead th {
+  height: 32px;
+  background: none;
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--mute);
+}
+.ex thead th:last-child,
+.ex td {
+  text-align: right;
+}
+.ex tbody th {
+  font-weight: 600;
+  border-radius: 16px 0 0 16px;
+}
+.ex td {
+  border-radius: 0 16px 16px 0;
+  font-size: 22px;
+  white-space: nowrap;
+}
+.ex td i {
+  margin-left: 10px;
+  font-style: normal;
+  font-size: 15px;
+  color: var(--mute);
+}
+.ex-total th,
+.ex-total td {
+  background: var(--accent-soft);
+}
+
+/* payout charts (src/kit/charts): example data from economics.ts, side by side; one column on phones */
+.docs-charts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+.docs-chart {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-width: 0;
+  padding: 18px 20px 16px;
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+}
+.docs-chart h3 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 740;
+  letter-spacing: -0.02em;
+}
+.docs-chart .docs-lead {
+  margin: 0 0 6px;
+  font-size: 15px;
+}
+.docs-chart .k-chart {
+  margin-top: 4px;
+}
+
+/* FAQ */
+.faq {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+}
+.faq details {
+  border-radius: 18px;
+  background: var(--surface-2);
+}
+.faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 60px;
+  padding: 0 20px;
+  font-size: 18px;
+  font-weight: 650;
+  cursor: pointer;
+  list-style: none;
+  border-radius: 18px;
+}
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+.faq summary::after {
+  content: '+';
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--accent);
+  transition: transform var(--t-med) var(--spring);
+}
+.faq details[open] summary::after {
+  transform: rotate(45deg);
+}
+.faq p {
+  padding: 0 20px 18px;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  animation: fade-up var(--t-med) var(--ease) both;
+}
+.docs-back {
+  justify-self: center;
+  margin-top: 12px;
+  min-width: 240px;
+}
+
+/* /docs/print: each diagram alone at 1600×900, no title */
+.print {
+  display: grid;
+  gap: 40px;
+  background: var(--bg);
+}
+.print-frame {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 1600px;
+  height: 900px;
+  padding: 80px;
+  background: radial-gradient(1000px 560px at 0% 0%, var(--accent-wash), transparent 65%), var(--bg);
+}
+.print-dia {
+  width: 1440px;
+}
+.print-dia .dia {
+  width: 1440px;
+  height: auto;
+}
+.print-mark {
+  position: absolute;
+  right: 56px;
+  bottom: 48px;
+  opacity: 0.9;
+}
+
+@media (max-width: 760px) {
+  .docs {
+    gap: 12px;
+    padding: 8px var(--gutter) calc(110px + env(safe-area-inset-bottom));
+  }
+  .docs-hd {
+    padding: 12px 2px 4px;
+  }
+  .docs-hd p {
+    font-size: 17px;
+  }
+  .docs-sec {
+    border-radius: var(--r-lg);
+  }
+  .docs-lead {
+    font-size: 16px;
+  }
+  .ex th,
+  .ex td {
+    height: 50px;
+    padding: 0 12px;
+    font-size: 15px;
+  }
+  .ex td {
+    font-size: 18px;
+  }
+  .ex td i {
+    display: none;
+  }
+  .docs-charts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .docs-chart {
+    padding: 14px 14px 12px;
+  }
+  .faq summary {
+    font-size: 16px;
+    padding: 0 16px;
+  }
+  .faq p {
+    font-size: 16px;
+    padding: 0 16px 16px;
+  }
+  .docs-back {
+    width: 100%;
+  }
+}

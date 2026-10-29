@@ -1,0 +1,36 @@
+# /etc/systemd/system/{{SLUG}}.service — written by deploy/release.sh (activate-remote.sh)
+[Unit]
+Description={{NAME}} server (127.0.0.1:{{PORT}}; Caddy serves {{DOMAIN}})
+After=network-online.target
+Wants=network-online.target
+ConditionPathExists=/srv/{{SLUG}}/current/server/main.mjs
+
+[Service]
+Type=simple
+User={{SLUG}}
+Group={{SLUG}}
+WorkingDirectory=/srv/{{SLUG}}/current
+# optional settings (AI keys, caps): chmod 600, never in the repo
+EnvironmentFile=-/etc/{{SLUG}}/server.env
+# bind, port and data are pinned after the env file, so an env edit cannot expose the server or move its data
+ExecStart=/usr/bin/env HOST=127.0.0.1 PORT={{PORT}} NODE_ENV=production DATA_DIR=/srv/{{SLUG}}/data ORIGIN=https://{{DOMAIN}} {{NODE}} --disable-warning=ExperimentalWarning server/main.mjs
+Restart=always
+RestartSec=3
+TimeoutStopSec=15s
+KillSignal=SIGTERM
+UMask=0027
+MemoryMax=768M
+
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/srv/{{SLUG}}/data
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+
+[Install]
+WantedBy=multi-user.target

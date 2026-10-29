@@ -1,0 +1,24 @@
+# Product words the copy check allows (one per line). They also count as one syllable.
+# Add the product's own nouns here, e.g. a mechanic name.
+mcp
+fmt
+claude
+cursor
+openclaw
+npx
+json
+flipper
+flippers
+holder
+telegram
+skill
+sol
+solscan
+wallets
+push
+pushes
+agent
+agents
+deploy
+trench
+every
